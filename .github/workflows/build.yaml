@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: framework-fedora-bootc
-      REGISTRY: ghcr.io/CompPhy
+      REGISTRY: ghcr.io/compphy
    
     steps:
       - name: Clone the repository
