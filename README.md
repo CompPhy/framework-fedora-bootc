@@ -10,3 +10,18 @@ Included features:
 * Podman Desktop
 * Basic office tools
 * Developer tools
+
+How to build ISO installation media
+============================
+**Optional:  Edit Makefile to set DISK_TYPE, ROOTFS, and ARCH as needed.**
+
+```
+git clone https://github.com/CompPhy/framework-fedora-bootc
+sudo dnf install make podman iptables
+# Fix for this issue when using WSL:  https://github.com/containers/podman/issues/25201
+sudo vim /etc/containers/containers.conf
+    [network]
+    firewall_driver="iptables"
+sudo podman pull ghcr.io/compphy/framework-fedora-bootc:latest
+sudo make disk-image
+```

@@ -8,7 +8,9 @@ BIB_IMAGE ?= quay.io/centos-bootc/bootc-image-builder:latest
 .PHONY: disk-image
 disk-image:
 	mkdir -p ./output
+	mkdir -p /var/lib/containers/storage
 	sed -e 's;@@IMAGE@@;$(OCI_IMAGE);g' config.toml.in > config.toml
+	podman pull ghcr.io/compphy/framework-fedora-bootc:latest
 	podman run \
 		--rm \
 		-it \
