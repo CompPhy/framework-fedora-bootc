@@ -24,6 +24,5 @@ disk-image:
 		--target-arch $(ARCH) \
 		--type $(DISK_TYPE) \
 		--rootfs $(ROOTFS) \
-		--local \
 		--use-librepo \
 		$(OCI_IMAGE)
