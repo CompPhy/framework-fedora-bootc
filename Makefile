@@ -10,7 +10,7 @@ disk-image:
 	mkdir -p ./output
 	mkdir -p /var/lib/containers/storage
 	sed -e 's;@@IMAGE@@;$(OCI_IMAGE);g' config.toml.in > config.toml
-	podman pull ghcr.io/compphy/framework-fedora-bootc:latest
+	podman pull $(OCI_IMAGE)
 	podman run \
 		--rm \
 		-it \
