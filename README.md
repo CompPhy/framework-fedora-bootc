@@ -22,6 +22,6 @@ sudo dnf install make podman iptables
 sudo vim /etc/containers/containers.conf
     [network]
     firewall_driver="iptables"
-sudo podman pull ghcr.io/compphy/framework-fedora-bootc:latest
+# Verify the image hash you want to pull in the Makefile.
 sudo make disk-image
 ```
