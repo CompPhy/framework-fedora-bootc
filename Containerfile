@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-silverblue:42
+FROM quay.io/fedora/fedora-bootc:42
 # mkpasswd and open-vm-tools-desktop are already part of silverblue base image.
 # RUN dnf -y install mkpasswd open-vm-tools-desktop && dnf clean all
 # Create user during anaconda install, instead of at image build.
