@@ -2,11 +2,14 @@
 contents = """
 text --non-interactive
 rootpw --lock
+user --name=fedora --groups=wheel --password=fedora
 
 zerombr
 clearpart --all --initlabel --disklabel=gpt
 autopart --noswap --type=lvm
 network --bootproto=dhcp --device=link --activate --onboot=on
+
+reboot
 
 %post --erroronfail --log=/root/kickstart-post.log
 set -x
