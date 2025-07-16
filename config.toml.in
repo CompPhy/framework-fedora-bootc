@@ -1,8 +1,15 @@
 [customizations.installer.kickstart]
 contents = """
-graphical
+text --non-interactive
+rootpw --lock
 
-%post --erroronfail
+zerombr
+clearpart --all --initlabel --disklabel=gpt
+autopart --noswap --type=lvm
+network --bootproto=dhcp --device=link --activate --onboot=on
+
+%post --erroronfail --log=/root/kickstart-post.log
+set -x
 bootc switch --mutate-in-place --transport registry @@IMAGE@@
 %end
 """
