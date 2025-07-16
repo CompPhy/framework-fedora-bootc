@@ -1,4 +1,4 @@
-OCI_IMAGE ?= ghcr.io/compphy/framework-fedora-bootc:da09f99b16f30cecd95ffc07d8123a46891d38c3 
+OCI_IMAGE ?= ghcr.io/compphy/framework-fedora-bootc:latest 
 DISK_TYPE ?= anaconda-iso
 ROOTFS ?= xfs
 ARCH ?= amd64
