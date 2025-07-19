@@ -1,6 +1,6 @@
 OCI_IMAGE ?= ghcr.io/compphy/framework-fedora-bootc:latest 
 DISK_TYPE ?= anaconda-iso
-ROOTFS ?= xfs
+ROOTFS ?= ext4
 ARCH ?= amd64
 BIB_IMAGE ?= quay.io/centos-bootc/bootc-image-builder:latest
 
@@ -10,12 +10,12 @@ disk-image:
 	mkdir -p ./output
 	mkdir -p /var/lib/containers/storage
 	sed -e 's;@@IMAGE@@;$(OCI_IMAGE);g' config.toml.in > config.toml
+	podman pull $(BIB_IMAGE)
 	podman pull $(OCI_IMAGE)
 	podman run \
 		--rm \
 		-it \
 		--privileged \
-		--pull=newer \
 		--security-opt label=type:unconfined_t \
 		-v ./config.toml:/config.toml:ro \
 		-v ./output:/output \

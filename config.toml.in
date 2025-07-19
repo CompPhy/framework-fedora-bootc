@@ -1,18 +1,16 @@
 [customizations.installer.kickstart]
 contents = """
 text --non-interactive
+timezone America/New_York
 rootpw --lock
 user --name=fedora --groups=wheel --password=fedora
+network --bootproto=dhcp --device=link --activate --onboot=on
 
 zerombr
 clearpart --all --initlabel --disklabel=gpt
 autopart --noswap --type=lvm
-network --bootproto=dhcp --device=link --activate --onboot=on
 
-reboot
-
-%post --erroronfail --log=/root/kickstart-post.log
-set -x
+%post --log=/var/log/anaconda/post-install.log --erroronfail
 bootc switch --mutate-in-place --transport registry @@IMAGE@@
 %end
 """
