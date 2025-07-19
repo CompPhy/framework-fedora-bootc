@@ -5,7 +5,7 @@ Inspired by:
 This will be a CI/CD pipeline for building Fedora Silverblue Bootc on Framework laptop hardware.
 
 Included features:
-* GNOME Desktop
+* Plasma Desktop
 * WIFI driver and tools
 * Podman Desktop
 * Basic office tools
