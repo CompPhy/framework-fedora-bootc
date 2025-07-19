@@ -2,7 +2,7 @@ Inspired by:
 * https://github.com/nzwulfin/cicd-bootc
 * https://github.com/vrothberg/fedora-bootc-workstation
 
-This will be a CI/CD pipeline for building Fedora Silverblue Bootc on Framework laptop hardware.
+This will be a CI/CD pipeline for building Fedora bootc on Framework laptop hardware.
 
 Included features:
 * Plasma Desktop
