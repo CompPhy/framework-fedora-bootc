@@ -17,6 +17,6 @@
   ],
   "pinDigests": true,
   "schedule": [
-    "* 0-3 * * *"
+    "* */1 * * *"
   ]
 }
