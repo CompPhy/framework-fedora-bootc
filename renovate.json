@@ -1,7 +1,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>platform-engineering-org/.github"
+    "github>platform-engineering-org/.github",
+    "schedule:daily"
   ],
   "description": "Config to group Docker image version and digest updates into a single pull request.",
   "packageRules": [
