@@ -17,7 +17,7 @@
   ],
   "pinDigests": true,
   "schedule": [
-    "* */1 * * *"
+    "0 * * * *"
   ],
   "timezone": "America/New_York"
 }
