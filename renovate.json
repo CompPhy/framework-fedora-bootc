@@ -16,5 +16,6 @@
     }
   ],
   "pinDigests": true,
+  "schedule": "every 1 hour",
   "timezone": "America/New_York"
 }
