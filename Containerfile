@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:42@sha256:be629db2ab373c054d8f611a214d21b6e16ce48118068d47cb2f1f87a0e30cfa
+FROM quay.io/fedora/fedora-bootc:42@sha256:d781f0558d6d7173110bc3d56d343bf30f8ce3f2c168bd03c68c2214ccf6b12c
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
 RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77e737a366
 RUN dnf install -y plasma-desktop && dnf clean all
