@@ -33,6 +33,7 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: latest ${{ github.sha }}
+          layers: True
           containerfiles: |
             ./Containerfile
 
