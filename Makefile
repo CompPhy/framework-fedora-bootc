@@ -2,6 +2,9 @@ OCI_IMAGE ?= ghcr.io/compphy/framework-fedora-bootc:latest
 DISK_TYPE ?= anaconda-iso
 ROOTFS ?= ext4
 ARCH ?= amd64
+# Use the upsteam build:
+# BIB_IMAGE ?= quay.io/centos-bootc/bootc-image-builder:latest
+# Use local build:
 BIB_IMAGE ?= localhost/bootc-image-builder:latest
 
 # See https://github.com/osbuild/bootc-image-builder
