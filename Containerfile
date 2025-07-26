@@ -4,6 +4,6 @@ RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77
 RUN dnf install -y --exclude rootfiles @kde-desktop-environment; dnf clean all
 RUN systemctl disable abrtd atd mcelog
 RUN systemctl set-default graphical.target
-RUN timedatectl set-timezone America/New_York
+RUN ln -snf ../usr/share/zoneinfo/America/New_York /etc/localtime
 RUN echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" > /etc/sudoers.d/wheel-sudo
 RUN bootc container lint
