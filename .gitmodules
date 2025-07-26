@@ -1,3 +1,4 @@
 [submodule "bootc-image-builder"]
 	path = bootc-image-builder
 	url = https://github.com/osbuild/bootc-image-builder
+	ignore = dirty
