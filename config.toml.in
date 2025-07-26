@@ -12,5 +12,6 @@ autopart --noswap --type=lvm
 
 %post --log=/var/log/anaconda/post-install.log --erroronfail
 bootc switch --mutate-in-place --transport registry @@IMAGE@@
+systemctl set-default graphical.target
 %end
 """
