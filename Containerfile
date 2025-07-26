@@ -10,5 +10,5 @@ RUN bootc container lint
 
 FROM builder
 COPY files/vscode.repo /etc/yum.repos.d/
-RUN dnf install -y code && dnf clean all
+RUN dnf install -y code firefox && dnf clean all
 RUN bootc container lint
