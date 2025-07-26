@@ -9,6 +9,6 @@ RUN echo "%wheel        ALL=(ALL)       NOPASSWD: ALL" > /etc/sudoers.d/wheel-su
 RUN bootc container lint
 
 FROM builder
-COPY files/vcscode.repo /etc/yum.repos.d/
+COPY files/vscode.repo /etc/yum.repos.d/
 RUN dnf install -y code && dnf clean all
 RUN bootc container lint
