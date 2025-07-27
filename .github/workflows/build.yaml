@@ -32,7 +32,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: latest ${{ github.sha }}
+          tags: latest 42 ${{ github.sha }}
           layers: True
           containerfiles: |
             ./Containerfile
