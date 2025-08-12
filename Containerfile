@@ -11,4 +11,7 @@ RUN bootc container lint
 FROM builder
 COPY files/vscode.repo /etc/yum.repos.d/
 RUN dnf install -y code firefox terminator && dnf clean all
+RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+RUN dnf config-manager setopt fedora-cisco-openh264.enabled=1
+RUN dnf install -y steam && dnf clean all
 RUN bootc container lint
