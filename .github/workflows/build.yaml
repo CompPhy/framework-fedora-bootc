@@ -1,3 +1,6 @@
+permissions:
+  contents: read
+  packages: write
 name: Build F42 bootc image
 on:
   workflow_dispatch:
