@@ -1,8 +1,7 @@
 FROM quay.io/fedora/fedora-bootc:42@sha256:4090a899b4c87f5b989d55c6d74fd6abf5ac918693ebd2851e888dd3fe781d58 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
 RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77e737a366
-RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games
-RUN dnf install -y terminator; dnf clean all
+RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
 RUN systemctl disable abrtd atd mcelog
 RUN systemctl set-default graphical.target
 RUN ln -snf ../usr/share/zoneinfo/America/New_York /etc/localtime
@@ -11,5 +10,5 @@ RUN bootc container lint
 
 FROM builder
 COPY files/vscode.repo /etc/yum.repos.d/
-RUN dnf install -y code firefox && dnf clean all
+RUN dnf install -y code firefox terminator && dnf clean all
 RUN bootc container lint
