@@ -4,6 +4,9 @@
     "github>platform-engineering-org/.github",
     "schedule:daily"
   ],
+  "ignorePresets": [
+    "group:all"
+  ],
   "description": "Config to group Docker image version and digest updates into a single pull request.",
   "packageRules": [
     {
@@ -18,4 +21,5 @@
   ],
   "pinDigests": true,
   "timezone": "America/New_York"
+
 }
