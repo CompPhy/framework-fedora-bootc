@@ -24,7 +24,7 @@ jobs:
    
     steps:
       - name: Clone the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Based on https://github.com/orgs/community/discussions/25678
       - name: Delete huge unnecessary tools folder
