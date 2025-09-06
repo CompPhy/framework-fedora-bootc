@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:42@sha256:0ead499af6057402ed4ef3075c802ed71dd56abe158a98e4517eb4c0f0dba792 AS builder
+FROM quay.io/fedora/fedora-bootc:42@sha256:0f1763ec32d8150255dfdbbd815aff2375e0531d7bc41730c1faa2a1f617e453 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
 RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77e737a366
 RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
@@ -15,3 +15,4 @@ RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
 RUN dnf config-manager setopt fedora-cisco-openh264.enabled=1
 RUN dnf install -y steam && dnf clean all
 RUN bootc container lint
+
