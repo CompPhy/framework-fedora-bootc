@@ -19,6 +19,7 @@
       "groupName": "{{depName}} Docker updates"
     }
   ],
+  "separateMultipleMajor": true,
   "pruneStaleBranches": false,
   "pinDigests": true,
   "timezone": "America/New_York"
