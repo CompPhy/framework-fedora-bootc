@@ -1,7 +1,7 @@
 permissions:
   contents: read
   packages: write
-name: Build F42 bootc image
+name: Main build and publish image
 on:
   workflow_dispatch:
   push:
@@ -16,7 +16,7 @@ concurrency:
     
 jobs:
   build:
-    name: Build Fedora bootc image
+    name: Main build and publish image
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: framework-fedora-bootc
@@ -35,7 +35,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: latest 42 ${{ github.sha }}
+          tags: latest 43 ${{ github.sha }}
           layers: True
           containerfiles: |
             ./Containerfile

@@ -1,0 +1,39 @@
+permissions:
+  contents: read
+  packages: write
+name: PR build test
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - Containerfile
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+    
+jobs:
+  build:
+    name: PR build test
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: framework-fedora-bootc
+      REGISTRY: ghcr.io/compphy
+   
+    steps:
+      - name: Clone the repository
+        uses: actions/checkout@v5
+
+      # Based on https://github.com/orgs/community/discussions/25678
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Use buildah build to create the image
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ${{ env.IMAGE_NAME }}
+          tags: latest 43 ${{ github.sha }}
+          layers: True
+          containerfiles: |
+            ./Containerfile
