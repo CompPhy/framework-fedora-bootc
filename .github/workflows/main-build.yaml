@@ -59,8 +59,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          # On main tag both 'latest' and '42'; on release-42 tag '42'.
-          tags: ${{ github.ref == 'refs/heads/main' && 'latest 42 ' || (github.ref == 'refs/heads/release-42' && '42 ' || '') }}${{ github.sha }}
+          tags: ${{ github.ref == 'refs/heads/release-42' && '42 ' || 'latest 43 ' }}${{ github.sha }}
           layers: True
           containerfiles: |
             ./Containerfile
