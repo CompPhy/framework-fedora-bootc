@@ -1,0 +1,6 @@
+# CODEOWNERS (simplified)
+# See GitHub docs for CODEOWNERS syntax and behavior:
+# - https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# - https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#codeowners-syntax
+# Fallback: all files owned by CompPhy
+* @CompPhy
