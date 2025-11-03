@@ -1,7 +1,7 @@
 permissions:
   contents: read
   packages: write
-name: Build F42 bootc image
+name: Build and publish image
 on:
   workflow_dispatch:
   push:
@@ -17,7 +17,7 @@ concurrency:
     
 jobs:
   build:
-    name: Build Fedora bootc image
+    name: Build and publish image
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: framework-fedora-bootc
