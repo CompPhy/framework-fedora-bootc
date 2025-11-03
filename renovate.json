@@ -4,6 +4,7 @@
     "github>platform-engineering-org/.github",
     "schedule:daily"
   ],
+  "baseBranches": ["main", "release-42"],
   "ignorePresets": [
     "group:all"
   ],
