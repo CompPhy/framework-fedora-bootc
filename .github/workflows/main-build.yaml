@@ -10,6 +10,7 @@ on:
       - release-42
     paths:
       - Containerfile
+      - .github/workflows/main-build.yaml
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
