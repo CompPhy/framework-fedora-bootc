@@ -19,6 +19,13 @@
       ],
       "groupName": "{{depName}} Docker updates"
     }
+    ,
+    {
+      "description": "Disable major version updates on release-42",
+      "matchUpdateTypes": ["major"],
+      "matchBaseBranches": ["release-42"],
+      "enabled": false
+    }
   ],
   "separateMultipleMajor": true,
   "pruneStaleBranches": false,
