@@ -1,5 +1,5 @@
-OCI_IMAGE ?= ghcr.io/compphy/framework-fedora-bootc:latest 
-DISK_TYPE ?= anaconda-iso
+OCI_IMAGE ?= ghcr.io/compphy/framework-fedora-bootc:latest
+DISK_TYPE ?= raw
 ROOTFS ?= ext4
 ARCH ?= amd64
 # Use upsteam build:
@@ -10,6 +10,7 @@ BIB_IMAGE ?= localhost/bootc-image-builder:latest
 # See https://github.com/osbuild/bootc-image-builder
 .PHONY: disk-image
 disk-image:
+	podman build -t framework-fedora-bootc $(CURDIR)
 	podman build -t bootc-image-builder $(CURDIR)/bootc-image-builder
 	mkdir -p ./output
 	mkdir -p /var/lib/containers/storage
@@ -28,4 +29,4 @@ disk-image:
 		--type $(DISK_TYPE) \
 		--rootfs $(ROOTFS) \
 		--use-librepo \
-		$(OCI_IMAGE)
+		localhost/framework-fedora-bootc:latest
