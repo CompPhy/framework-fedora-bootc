@@ -4,7 +4,10 @@
     "github>platform-engineering-org/.github",
     "schedule:daily"
   ],
-  "baseBranches": ["main", "release-42"],
+  "baseBranchPatterns": [
+    "main",
+    "release-42"
+  ],
   "ignorePresets": [
     "group:all"
   ],
@@ -18,13 +21,6 @@
         "digest"
       ],
       "groupName": "{{depName}} Docker updates"
-    }
-    ,
-    {
-      "description": "Disable major version updates on release-42",
-      "matchUpdateTypes": ["major"],
-      "matchBaseBranches": ["release-42"],
-      "enabled": false
     }
   ],
   "separateMultipleMajor": true,
