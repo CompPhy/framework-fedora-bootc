@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:42@sha256:a67bddc2c1b2b90ad379955441b5e632dc0626fb5e1accec232cf3cdceeffc75 AS builder
+FROM quay.io/fedora/fedora-bootc:44@sha256:57e38e513f00556b422b78e80c518fbef8d0b9d149a66afe8e7bd81975ac4391 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
 RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77e737a366
 RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
