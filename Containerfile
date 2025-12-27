@@ -1,6 +1,6 @@
-FROM quay.io/fedora/fedora-bootc:42@sha256:5e140da7a2a2f58f41cfb28786a6c624a3acabb796dadd03f82ceba571245029 AS builder
+FROM quay.io/fedora/fedora-bootc:43@sha256:2ea291797d86cf7c8c3f0e62a7993e247acc1dbd7ecc776608010c2684314618 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
-RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77e737a366
+RUN dnf upgrade -y --refresh
 RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
 RUN systemctl disable abrtd atd mcelog
 RUN systemctl set-default graphical.target
