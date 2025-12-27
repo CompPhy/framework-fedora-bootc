@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:43@sha256:b193a5166e08d74047c336b4161f6f6ecbca79ac7a238daeaad21a0d3a377a10 AS builder
+FROM quay.io/fedora/fedora-bootc:43@sha256:2ea291797d86cf7c8c3f0e62a7993e247acc1dbd7ecc776608010c2684314618 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
 RUN dnf upgrade -y --refresh
 RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
@@ -15,3 +15,4 @@ RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
 RUN dnf config-manager setopt fedora-cisco-openh264.enabled=1
 RUN dnf install -y steam && dnf clean all
 RUN bootc container lint
+
