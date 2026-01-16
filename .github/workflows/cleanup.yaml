@@ -38,7 +38,8 @@ jobs:
         run: |
           set -euo pipefail
           out=candidates.txt
-          echo "# id\tcreated_at\tselected" > "$out"
+          # Log uses digest first (human-friendly); id is retained for deletion.
+          printf '# digest\tid\tcreated_at\tselected\n' > "$out"
           # Determine whether owner is an Organization or User
           owner_type=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" "https://api.github.com/users/$OWNER" | jq -r '.type')
           if [ "$owner_type" = "Organization" ]; then
@@ -58,17 +59,45 @@ jobs:
               break
             fi
 
-            # For each untagged version, compute whether it's older than cutoff and mark selected=yes/no
-            echo "$resp" | jq -c '.[] | select((.metadata.container.tags==null) or (.metadata.container.tags | length==0))' | while read -r item; do
+            # For each version, decide whether it's a candidate:
+            # - No tags => candidate
+            # - Tags exist and ALL tags look like commit hashes (7-40 hex chars) => candidate
+            # - Otherwise skip
+            echo "$resp" | jq -c '.[]' | while read -r item; do
               id=$(echo "$item" | jq -r '.id')
+              digest=$(echo "$item" | jq -r '.metadata.container.digest // empty')
               created=$(echo "$item" | jq -r '.created_at')
               created_ts=$(date -d "$created" +%s)
-              if [ "$created_ts" -lt "$cutoff_ts" ]; then
-                selected=yes
+
+              # gather tags as space-separated list
+              tags=$(echo "$item" | jq -r '.metadata.container.tags // [] | join(" ")')
+
+              consider=false
+              if [ -z "$tags" ]; then
+                consider=true
               else
-                selected=no
+                # check whether ALL tags look like commit hashes (7-40 hex chars)
+                all_hashes=true
+                for t in $tags; do
+                  if ! [[ "$t" =~ ^[0-9a-fA-F]{40}$ ]]; then
+                    all_hashes=false
+                    break
+                  fi
+                done
+                if [ "$all_hashes" = true ]; then
+                  consider=true
+                fi
               fi
-              printf "%s\t%s\t%s\n" "$id" "$created" "$selected" >> "$out"
+
+              if [ "$consider" = true ]; then
+                if [ "$created_ts" -lt "$cutoff_ts" ]; then
+                  selected=yes
+                else
+                  selected=no
+                fi
+                # Write digest first for logs, keep id for deletion
+                printf "%s\t%s\t%s\t%s\n" "$digest" "$id" "$created" "$selected" >> "$out"
+              fi
             done
 
             page=$((page+1))
@@ -76,10 +105,11 @@ jobs:
 
           # Add a summary header with counts selected vs total
           total=$(tail -n +2 "$out" | wc -l | tr -d ' ')
-          selected_count=$(tail -n +2 "$out" | awk -F $'\t' '$3=="yes"{c++}END{print c+0}')
+          # selected is now the 4th column
+          selected_count=$(tail -n +2 "$out" | awk -F $'\t' '$4=="yes"{c++}END{print c+0}')
           not_selected=$((total - selected_count))
           tmp="${out}.tmp"
-          echo "# summary: selected=${selected_count}\tnot_selected=${not_selected}\ttotal=${total}" > "$tmp"
+          printf '# summary: selected=%s\tnot_selected=%s\ttotal=%s\n' "$selected_count" "$not_selected" "$total" > "$tmp"
           cat "$out" >> "$tmp"
           mv "$tmp" "$out"
 
@@ -136,17 +166,17 @@ jobs:
         run: |
           set -euo pipefail
           echo "DRY_RUN=${DRY_RUN}"
-          # Skip header
-          tail -n +2 candidates.txt | while IFS=$'\t' read -r id created selected; do
+          # Skip header; file columns: digest, id, created, selected
+          tail -n +2 candidates.txt | while IFS=$'\t' read -r digest id created selected; do
             if [ "$selected" = "yes" ]; then
               if [ "${DRY_RUN:-false}" = "true" ]; then
-                echo "[dry-run] Would delete package version $id (created: $created)"
+                echo "[dry-run] Would delete package version (digest: $digest) (created: $created)"
               else
-                echo "Deleting package version $id (created: $created)"
+                echo "Deleting package version (digest: $digest) (id: $id) (created: $created)"
                 curl -s -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
                   "https://api.github.com/${{ github.repository_owner }}/packages/container/${PACKAGE}/versions/${id}"
               fi
             else
-              echo "Candidate $id (created: $created) is not older than 30 days; skipping"
+              echo "Candidate (digest: $digest) (created: $created) is not older than 30 days; skipping"
             fi
           done
