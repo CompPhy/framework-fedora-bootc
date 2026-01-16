@@ -25,6 +25,8 @@ jobs:
     steps:
       - name: Check for PRs referencing this commit
         id: check
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Query GitHub API for pull requests that include this commit
           resp=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls")
@@ -34,8 +36,6 @@ jobs:
           else
             echo "has_pr=false" >> $GITHUB_OUTPUT
           fi
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: Build and publish image
