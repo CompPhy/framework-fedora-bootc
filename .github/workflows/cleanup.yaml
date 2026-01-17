@@ -117,7 +117,7 @@ jobs:
           cat "$out"
 
       - name: Upload candidate list artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ghcr-candidates-${{ github.run_id }}
           path: candidates.txt
