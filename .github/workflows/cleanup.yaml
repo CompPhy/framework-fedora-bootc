@@ -168,20 +168,7 @@ jobs:
         run: |
           set -euo pipefail
           echo "DRY_RUN=${DRY_RUN}"
-          # Use awk to safely parse TAB-separated fields (preserves empty fields)
-          # and perform deletions (or dry-run messages). This avoids relying on shell IFS,
-          # which can collapse multiple adjacent IFS whitespace characters.
-          # Feed the awk program via heredoc to avoid shell/YAML mangling of quotes
-          awk -F '\t' -f - candidates.txt <<'AWK' | bash -euo pipefail
-          $0 ~ /^#/ || NF < 4 { next }
-          id=$1; digest=$2; created=$3; selected=$4
-          if (selected == "yes") {
-            if (ENVIRON["DRY_RUN"] == "true") {
-              printf "echo [dry-run] Would delete package version (id: %s) (digest: %s) (created: %s)\n", id, digest, created
-            } else {
-              printf "curl -s -X DELETE -H \"Authorization: Bearer %s\" -H \"Accept: application/vnd.github+json\" \"https://api.github.com/%s/packages/container/%s/versions/%s\"\n", ENVIRON["GITHUB_TOKEN"], ENVIRON["OWNER"], ENVIRON["PACKAGE"], id
-            }
-          } else {
-            printf "echo Candidate (id: %s) (created: %s) is not older than 30 days; skipping\n", id, created
-          }
-          AWK
+          # Use an embedded Python script to parse TAB-separated fields (preserves empty fields)
+          # and perform deletions (or dry-run messages). This avoids awk quoting/syntax issues.
+          # Call the deletion helper script (keeps workflow YAML clean)
+          python3 .github/scripts/perform_deletions.py
