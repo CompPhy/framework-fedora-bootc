@@ -164,20 +164,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DRY_RUN: ${{ env.DRY_RUN }}
           PACKAGE: ${{ env.IMAGE_NAME }}
+          OWNER: ${{ github.repository_owner }}
         run: |
           set -euo pipefail
           echo "DRY_RUN=${DRY_RUN}"
-          # Skip header; file columns: id, digest, created, selected
-          tail -n +2 candidates.txt | while IFS=$'\t' read -r id digest created selected; do
-            if [ "$selected" = "yes" ]; then
-              if [ "${DRY_RUN:-false}" = "true" ]; then
-                echo "[dry-run] Would delete package version (id: $id) (digest: $digest) (created: $created)"
-              else
-                echo "Deleting package version (id: $id) (digest: $digest) (created: $created)"
-                curl -s -X DELETE -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" \
-                  "https://api.github.com/${{ github.repository_owner }}/packages/container/${PACKAGE}/versions/${id}"
-              fi
-            else
-              echo "Candidate (id: $id) (created: $created) is not older than 30 days; skipping"
-            fi
-          done
+          # Use awk to safely parse TAB-separated fields (preserves empty fields)
+          # and perform deletions (or dry-run messages). This avoids relying on shell IFS,
+          # which can collapse multiple adjacent IFS whitespace characters.
+          awk -F '\t' '
+            $0 ~ /^#/ || NF < 4 { next }
+            id=$1; digest=$2; created=$3; selected=$4
+            if (selected == "yes") {
+              if (ENVIRON["DRY_RUN"] == "true") {
+                printf "[dry-run] Would delete package version (id: %s) (digest: %s) (created: %s)\n", id, digest, created
+              } else {
+                printf "Deleting package version (id: %s) (digest: %s) (created: %s)\n", id, digest, created
+                cmd = "curl -s -X DELETE -H \"Authorization: Bearer " ENVIRON["GITHUB_TOKEN"] "\" -H \"Accept: application/vnd.github+json\" \"https://api.github.com/" ENVIRON["OWNER"] "/packages/container/" ENVIRON["PACKAGE"] "/versions/" id "\""
+                system(cmd)
+              }
+            } else {
+              printf "Candidate (id: %s) (created: %s) is not older than 30 days; skipping\n", id, created
+            }
+          ' candidates.txt
