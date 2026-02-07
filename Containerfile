@@ -1,4 +1,4 @@
-FROM quay.io/fedora/fedora-bootc:43@sha256:8d040512aaecebd77a13cf301db0a131604f715b4f4eb1b22390e2d2b0031b98 AS builder
+FROM quay.io/fedora/fedora-bootc:43@sha256:4121442b61b21566bf58b101f027bcd7d2a2269f32bd3b30d5c50a5d3cf90225 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
 RUN dnf upgrade -y --refresh
 RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
