@@ -1,7 +1,7 @@
-FROM quay.io/fedora/fedora-bootc:42@sha256:a02c8438b549f8e37002f225c39403b04af5792d84f56bc573e15990664cffca AS builder
+FROM quay.io/fedora/fedora-bootc:43@sha256:37c9e4e3f7d79171a4018e811ed2e7be4247c5c532646694babbd8a1782f9fb2 AS builder
 # https://bugzilla.redhat.com/show_bug.cgi?id=2381864
-RUN dnf upgrade --enablerepo=updates-testing --refresh --advisory=FEDORA-2025-77e737a366
-RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games; dnf clean all
+RUN dnf upgrade -y --refresh
+RUN dnf install -y --exclude rootfiles @kde-desktop-environment @development-tools @container-management @system-tools @games && dnf clean all
 RUN systemctl disable abrtd atd mcelog
 RUN systemctl set-default graphical.target
 RUN ln -snf ../usr/share/zoneinfo/America/New_York /etc/localtime
@@ -10,9 +10,7 @@ RUN bootc container lint
 
 FROM builder
 COPY files/vscode.repo /etc/yum.repos.d/
-RUN dnf install -y code firefox terminator && dnf clean all
 RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 RUN dnf config-manager setopt fedora-cisco-openh264.enabled=1
-RUN dnf install -y steam && dnf clean all
+RUN dnf install -y code firefox terminator wireguard-tools steam solaar && dnf clean all
 RUN bootc container lint
-
