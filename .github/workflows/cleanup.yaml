@@ -65,6 +65,7 @@ jobs:
             # - Tags exist and ALL tags look like commit hashes (7-40 hex chars) => candidate
             # - Otherwise skip
             echo "$resp" | jq -c '.[]' | while read -r item; do
+              printf( "Processing item: %s\n" "$(echo "$item" | jq ." ) >&2
               id=$(echo "$item" | jq -r '.id')
               digest=$(echo "$item" | jq -r '.metadata.container.digest // empty')
               created=$(echo "$item" | jq -r '.created_at')
