@@ -8,6 +8,7 @@ on:
     paths:
       - Containerfile
       - .github/workflows/pr-build.yaml
+      - bootc-image-builder
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
