@@ -17,6 +17,8 @@ if OWNER is None or PACKAGE is None:
     print("Missing OWNER or PACKAGE environment variables; aborting.")
     raise SystemExit(1)
 
+print(f"DRY_RUN={DRY_RUN}, OWNER={OWNER}, PACKAGE={PACKAGE}")
+
 path = "candidates.txt"
 if not os.path.exists(path):
     print(f"{path} not found; aborting.")
@@ -39,7 +41,7 @@ with open(path, "r", newline="") as f:
             else:
                 print(f"Deleting package version (id: {id_}) (digest: {digest}) (created: {created})")
                 cmd = [
-                    'curl', '-s', '-X', 'DELETE',
+                    'curl', '-s', '-L','-X', 'DELETE',
                     '-H', f'Authorization: Bearer {GITHUB_TOKEN}',
                     '-H', 'Accept: application/vnd.github+json',
                     f'https://api.github.com/{OWNER}/packages/container/{PACKAGE}/versions/{id_}',
