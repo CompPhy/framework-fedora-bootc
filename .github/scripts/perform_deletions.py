@@ -44,7 +44,7 @@ with open(path, "r", newline="") as f:
                     'curl', '-s', '-L','-X', 'DELETE',
                     '-H', f'Authorization: Bearer {GITHUB_TOKEN}',
                     '-H', 'Accept: application/vnd.github+json',
-                    f'https://api.github.com/{OWNER}/packages/container/{PACKAGE}/versions/{id_}',
+                    f'https://api.github.com/users/{OWNER}/packages/container/{PACKAGE}/versions/{id_}',
                 ]
                 try:
                     subprocess.run(cmd, check=False)
