@@ -19,7 +19,7 @@
         "patch",
         "digest"
       ],
-      "groupName": null
+      "groupName": null,
       "automerge": true,
       "platformAutomerge": true
     },
