@@ -15,4 +15,3 @@ RUN dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-rele
 RUN dnf config-manager setopt fedora-cisco-openh264.enabled=1
 RUN dnf install -y steam && dnf clean all
 RUN bootc container lint
-
