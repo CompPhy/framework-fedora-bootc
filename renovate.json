@@ -14,6 +14,16 @@
   "description": "Config to group Docker image version and digest updates into a single pull request.",
   "packageRules": [
     {
+      "description": "Patch and digest updates",
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
+      "groupName": null
+      "automerge": true,
+      "platformAutomerge": true
+    },
+    {
       "matchDatasources": [
         "docker"
       ],
