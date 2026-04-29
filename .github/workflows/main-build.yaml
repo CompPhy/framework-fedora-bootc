@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - main
-      - release-42
+      - release-.*
     paths:
       - Containerfile
       - .github/workflows/main-build.yaml
@@ -28,6 +28,12 @@ jobs:
       - name: Clone the repository
         uses: actions/checkout@v6
 
+      - name: Extract major version from Containerfile
+        id: extract-version
+        run: |
+          VERSION=$(grep -oP '^FROM quay.io/fedora/fedora-bootc:(\d+)' Containerfile | grep -oP '\d+')
+          echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+
       # Based on https://github.com/orgs/community/discussions/25678
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
@@ -37,7 +43,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: ${{ github.ref == 'refs/heads/release-42' && '42 ' || 'latest 43 ' }}${{ github.sha }}
+          tags: ${{ startsWith(github.ref, 'refs/heads/release-') && format('{0} ', steps.extract-version.outputs.VERSION) || format('latest {0} ', steps.extract-version.outputs.VERSION) }}${{ github.sha }}
           layers: True
           containerfiles: |
             ./Containerfile
