@@ -5,10 +5,8 @@ name: PR build test
 on:
   workflow_dispatch:
   pull_request:
-    paths:
-      - Containerfile
-      - .github/workflows/pr-build.yaml
-      - bootc-image-builder
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
