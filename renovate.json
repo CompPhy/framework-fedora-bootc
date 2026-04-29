@@ -6,7 +6,7 @@
   ],
   "baseBranchPatterns": [
     "main",
-    "release-42"
+    "release-.*"
   ],
   "ignorePresets": [
     "group:all"
