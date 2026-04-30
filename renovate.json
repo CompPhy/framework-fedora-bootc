@@ -24,8 +24,8 @@
       "description": "Restrict version updates on release branches dynamically (major version only)",
       "matchBaseBranches": ["/^release-\\d+$/"],
       "allowedVersions": "/^$1(\\.|$)/",
-      "matchUpdateTypes": ["major"],
-      "groupName": "Release branch version updates ({{baseBranch}})"
+      "groupName": "Release branch version updates ({{baseBranch}})",
+      "matchPackageNames": []
     },
     {
       "description": "Always allow digest updates on release branches",
