@@ -16,22 +16,22 @@
     {
       "description": "Patch and digest updates",
       "matchUpdateTypes": ["patch", "digest"],
-      "groupName": null,
+      "groupName": "{{depName}} updates",
       "automerge": true,
       "platformAutomerge": true
     },
     {
-      "description": "Restrict major version updates on release branches dynamically",
+      "description": "Restrict version updates on release branches dynamically (major version only)",
       "matchCurrentBranch": "/^release-(\\d+)$/",
       "allowedVersions": "/^$1(\\.|$)/",
       "excludePackageNames": [],
-      "matchUpdateTypes": ["major", "minor", "patch"],
       "groupName": "Release branch version updates"
     },
     {
-      "matchDatasources": ["docker"],
+      "description": "Always allow digest updates on release branches",
+      "matchCurrentBranch": "/^release-(\\d+)$/",
       "matchUpdateTypes": ["digest"],
-      "groupName": "{{depName}} Docker updates"
+      "groupName": "Release branch digest updates"
     }
   ],
   "separateMultipleMajor": true,
