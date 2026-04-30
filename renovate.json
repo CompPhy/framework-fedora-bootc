@@ -15,21 +15,22 @@
   "packageRules": [
     {
       "description": "Patch and digest updates",
-      "matchUpdateTypes": [
-        "patch",
-        "digest"
-      ],
+      "matchUpdateTypes": ["patch", "digest"],
       "groupName": null,
       "automerge": true,
       "platformAutomerge": true
     },
     {
-      "matchDatasources": [
-        "docker"
-      ],
-      "matchUpdateTypes": [
-        "digest"
-      ],
+      "description": "Restrict major version updates on release branches dynamically",
+      "matchCurrentBranch": "/^release-(\\d+)$/",
+      "allowedVersions": "/^$1(\\.|$)/",
+      "excludePackageNames": [],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "groupName": "Release branch version updates"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
       "groupName": "{{depName}} Docker updates"
     }
   ],
