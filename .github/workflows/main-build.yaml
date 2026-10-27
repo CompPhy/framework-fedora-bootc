@@ -34,7 +34,7 @@ jobs:
 
       - name: Use buildah build to create the image
         id: build-image
-        uses: redhat-actions/buildah-build@v2
+        uses: redhat-actions/buildah-build@v3
         with:
           image: ${{ env.IMAGE_NAME }}
           tags: ${{ github.ref == 'refs/heads/release-42' && '42 ' || 'latest 43 ' }}${{ github.sha }}
